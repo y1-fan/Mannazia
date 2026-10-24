@@ -8,7 +8,7 @@ book's pages.
 
 - **Backend:** Python 3.12, FastAPI, SQLAlchemy 2.x, Alembic, SQLite (WAL), httpx, Pillow.
 - **Frontend:** React 19 + TypeScript + Vite, OpenSeadragon for deep zoom, plain CSS design system.
-  Serif typography is local: **Michelangelus** for Latin text and **Source Han Serif SC** for
+  Serif typography is local: **Literata** for Latin text and **Source Han Serif SC** for
   Chinese text, with bilingual English/Chinese UI and a language switch.
 - **Deployment:** Single multi-stage Docker image; FastAPI serves the compiled SPA and the API.
   Compose bind-mounts `./config`, `./data`, `./books`.
@@ -76,7 +76,7 @@ backend/tests/     pytest suite with local fixtures and fakes
 - Cover caching: import downloads and verifies one cover image at the configured width (default
   1200 px) into the book directory, without counting it as a page or changing the `online` state.
 - Bilingual English/Chinese interface with a persisted language switch. Serif typography uses
-  locally hosted Michelangelus for Latin headings/prose and Source Han Serif SC for Chinese
+  locally hosted Literata for Latin headings/prose and Source Han Serif SC for Chinese
   headings/prose; navigation and compact UI labels stay on the system sans stack. Font files are
   served from `/fonts` (no CDN dependency). Chinese UI, mixed-script headings and date formatting
   were visually checked in a headless browser; localStorage persistence is unit-tested.

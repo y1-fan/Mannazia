@@ -335,12 +335,11 @@ Mannazia is built on the IIIF Presentation API and Image API specifications,
 FastAPI, SQLAlchemy/Alembic, React, Vite and OpenSeadragon. The rune **ᛗ**
 (Mannaz) is used as a visual motif; no invented historical meaning is implied.
 
-Latin display typography uses **Michelangelus**; Chinese display typography uses
-**Source Han Serif SC** (SIL Open Font License). Both are served locally, with no
-third-party font CDN at runtime.
+Latin display typography uses **Literata**; Chinese display typography uses
+**Source Han Serif SC**. Both are licensed under the SIL Open Font License 1.1
+and served locally, with no third-party font CDN at runtime.
 
 ## License
 
-The project source code does not yet include an open-source license. The
-maintainer should choose and add a `LICENSE` file before publishing a public
-repository.
+This project is released under the [MIT License](LICENSE).
+Copyright (c) 2026 Mannazia contributors.

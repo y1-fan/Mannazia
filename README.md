@@ -304,10 +304,10 @@ Mannazia 基于 IIIF Presentation API、IIIF Image API、FastAPI、SQLAlchemy/Al
 React、Vite 和 OpenSeadragon 构建。卢恩字符 **ᛗ**（Mannaz）作为项目的视觉符号，
 不引申虚构的历史含义。
 
-衬线字体使用 **Michelangelus**（拉丁标题和编辑性文字）与 **Source Han Serif SC**
-（中文标题和正文，SIL Open Font License）。字体由应用本地提供，不依赖第三方
-字体 CDN。
+衬线字体使用 **Literata**（拉丁标题和编辑性文字）与 **Source Han Serif SC**
+（中文标题和正文）。两种字体均为 SIL Open Font License 1.1，由应用本地提供，
+不依赖第三方字体 CDN。
 
 ## 许可证
 
-项目源代码尚未附带开源许可证。发布到公开仓库前，请由维护者选择并添加 `LICENSE`。
+本项目采用 [MIT License](LICENSE)。Copyright (c) 2026 Mannazia contributors.

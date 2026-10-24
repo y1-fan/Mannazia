@@ -1,31 +1,15 @@
 @font-face {
-  font-family: "Michelangelus";
-  src: url("/fonts/Michelangelus-Regular.ttf") format("truetype");
-  font-weight: 400;
+  font-family: "Literata";
+  src: url("/fonts/Literata-Variable.ttf") format("truetype");
+  font-weight: 200 900;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: "Michelangelus";
-  src: url("/fonts/Michelangelus-Bold.ttf") format("truetype");
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Michelangelus";
-  src: url("/fonts/Michelangelus-Italic.ttf") format("truetype");
-  font-weight: 400;
-  font-style: italic;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Michelangelus";
-  src: url("/fonts/Michelangelus-BoldItalic.ttf") format("truetype");
-  font-weight: 700;
+  font-family: "Literata";
+  src: url("/fonts/Literata-Italic-Variable.ttf") format("truetype");
+  font-weight: 200 900;
   font-style: italic;
   font-display: swap;
 }
@@ -75,7 +59,7 @@
   --slate-pale: #e4e7e8;
   --shadow-soft: 0 12px 34px rgba(45, 41, 34, 0.08);
   --shadow-card: 0 18px 40px rgba(45, 41, 34, 0.12);
-  --font-display: "Michelangelus", "SourceHanSerifSC", "Songti SC",
+  --font-display: "Literata", "SourceHanSerifSC", "Songti SC",
     "Noto Serif CJK SC", "Source Han Serif SC", serif;
   --font-ui: "Avenir Next", "Segoe UI", "Helvetica Neue", "PingFang SC",
     "Hiragino Sans GB", "Microsoft YaHei", sans-serif;

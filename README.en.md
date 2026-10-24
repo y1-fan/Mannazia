@@ -325,6 +325,7 @@ real library.
 
 ## Documentation
 
+- [Linux NAS deployment guide (Chinese)](docs/DEPLOYMENT.zh-CN.md)
 - [Development plan and implementation notes](docs/PLAN.md)
 - [Fonts and licenses](docs/FONTS.md)
 - [中文 README](README.md)

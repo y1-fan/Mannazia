@@ -294,6 +294,7 @@ npm run build      # 输出 frontend/dist
 
 ## 文档
 
+- [Linux NAS 部署指南](docs/DEPLOYMENT.zh-CN.md)
 - [开发计划与实现记录](docs/PLAN.md)
 - [字体与许可说明](docs/FONTS.md)
 - [English README](README.en.md)

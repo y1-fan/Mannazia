@@ -1,0 +1,126 @@
+{
+  "@context": "http://iiif.io/api/presentation/2/context.json",
+  "@id": "https://example.org/iiif/book1/manifest",
+  "@type": "sc:Manifest",
+  "label": "The Parchment Codex",
+  "description": "A <b>digitized</b> medieval miscellany.",
+  "license": "https://example.org/rights/cc-by-4.0",
+  "attribution": "Digitized by the Example Library. Please credit the holding institution.",
+  "navDate": "1420-01-01T00:00:00Z",
+  "thumbnail": {
+    "@id": "https://example.org/iiif/book1/thumb/default.jpg",
+    "service": {
+      "@id": "https://example.org/iiif/book1/thumb",
+      "profile": "http://iiif.io/api/image/2/level1.json"
+    }
+  },
+  "metadata": [
+    {"label": "Creator", "value": "Anonymous scribe"},
+    {"label": {"en": ["Date"], "fr": ["Date"]}, "value": "15th century"},
+    {"label": "Language", "value": {"@value": "Latin", "@language": "en"}},
+    {"label": "Shelfmark", "value": "MS 42"}
+  ],
+  "rendering": [
+    {"@id": "https://example.org/download/book1.pdf", "format": "application/pdf", "label": "PDF"}
+  ],
+  "seeAlso": ["https://example.org/data/book1.xml"],
+  "structures": [
+    {
+      "@id": "https://example.org/iiif/book1/range/top",
+      "@type": "sc:Range",
+      "label": "Contents",
+      "items": [
+        {
+          "@id": "https://example.org/iiif/book1/range/chapter1",
+          "@type": "sc:Range",
+          "label": "Chapter I",
+          "items": [
+            {"@id": "https://example.org/iiif/book1/canvas/1", "@type": "sc:Canvas"},
+            {"@id": "https://example.org/iiif/book1/canvas/2", "@type": "sc:Canvas"}
+          ]
+        },
+        {"@id": "https://example.org/iiif/book1/canvas/3", "@type": "sc:Canvas"}
+      ]
+    }
+  ],
+  "sequences": [
+    {
+      "@id": "https://example.org/iiif/book1/sequence/normal",
+      "@type": "sc:Sequence",
+      "canvases": [
+        {
+          "@id": "https://example.org/iiif/book1/canvas/1",
+          "@type": "sc:Canvas",
+          "label": {"en": ["Frontispiece"], "none": ["Frontispiece"]},
+          "width": 2000,
+          "height": 3000,
+          "thumbnail": "https://example.org/iiif/book1/canvas/1/thumb.jpg",
+          "images": [
+            {
+              "@type": "oa:Annotation",
+              "motivation": "sc:painting",
+              "resource": {
+                "@id": "https://example.org/iiif/book1/canvas/1/full/full/0/default.jpg",
+                "@type": "dctypes:Image",
+                "format": "image/jpeg",
+                "width": 2000,
+                "height": 3000,
+                "service": {
+                  "@id": "https://example.org/iiif/book1/canvas/1",
+                  "@type": "iiif:ImageService2",
+                  "profile": "http://iiif.io/api/image/2/level2.json"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "@id": "https://example.org/iiif/book1/canvas/2",
+          "@type": "sc:Canvas",
+          "label": "Text page",
+          "width": 2100,
+          "height": 3100,
+          "images": [
+            {
+              "@type": "oa:Annotation",
+              "motivation": "sc:painting",
+              "resource": {
+                "@id": "https://images.example.org/plain/page2.jpg",
+                "@type": "dctypes:Image",
+                "format": "image/jpeg",
+                "width": 2100,
+                "height": 3100
+              }
+            },
+            {
+              "@type": "oa:Annotation",
+              "motivation": "sc:painting",
+              "resource": {
+                "@id": "https://example.org/iiif/book1/canvas/2/full/max/0/default.jpg",
+                "@type": "dctypes:Image",
+                "format": "image/jpeg",
+                "width": 2100,
+                "height": 3100,
+                "service": {
+                  "@id": "https://example.org/iiif/book1/canvas/2",
+                  "profile": [
+                    "http://iiif.io/api/image/2/level1.json",
+                    {"formats": ["jpg", "png"], "qualities": ["default", "bitonal"]}
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "@id": "https://example.org/iiif/book1/canvas/3",
+          "@type": "sc:Canvas",
+          "label": "Colophon",
+          "width": 1800,
+          "height": 2600,
+          "images": []
+        }
+      ]
+    }
+  ]
+}

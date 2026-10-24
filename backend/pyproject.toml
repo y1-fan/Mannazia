@@ -1,0 +1,32 @@
+[project]
+name = "mannazia-backend"
+version = "0.1.0"
+description = "Self-hosted IIIF digital library"
+requires-python = ">=3.12"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"
+addopts = "-q"
+filterwarnings = [
+    "ignore::DeprecationWarning:starlette.*",
+    "ignore::DeprecationWarning:pydantic.*",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+src = ["."]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM", "RUF"]
+ignore = [
+    "RUF012", # mutable class attrs are not a concern for these settings
+]
+
+[tool.ruff.lint.per-file-ignores]
+"app/api/*.py" = ["B008"]  # FastAPI's Depends() in defaults is the framework idiom
+"alembic/versions/*.py" = ["E501"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["app"]

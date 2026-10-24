@@ -1,0 +1,1 @@
+"""Mannazia service layer."""

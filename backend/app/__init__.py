@@ -1,0 +1,1 @@
+"""Mannazia backend application."""

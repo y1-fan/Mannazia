@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="5 25 30 30" role="img" aria-label="Mannazia">
+  <defs>
+    <style>
+      .gray {
+        fill: #b9b8ba;
+      }
+
+      .yellow-2 {
+        fill: rgba(217, 178, 25, 1);
+      }
+
+      .yellow-3 {
+        fill: rgba(177, 145, 18, 1);
+      }
+
+      .yellow-1 {
+        fill: rgba(252, 206, 29, 1);
+      }
+
+      .red {
+        fill: red;
+      }
+    </style>
+  </defs>
+
+  <polygon class="yellow-1" points="
+    10 30
+    15 40
+    25 40
+  "/>
+
+  <polygon class="yellow-3" points="
+    30 30
+    15 40
+    25 40
+  "/>
+
+  <polygon class="yellow-1" points="
+    25 40
+    25 50
+    30 50
+    30 30
+  "/>
+
+  <polygon class="yellow-3" points="
+    10 30
+    10 50
+    15 50
+    15 40
+  "/>
+
+  <polygon class="yellow-2" points="
+    15 40
+    15 50
+    30 50
+    30 30
+  "/>
+
+</svg>

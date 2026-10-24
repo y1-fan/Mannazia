@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 40 40" role="img" aria-label="Mannazia">
+  <defs>
+    <style>
+      .yellow-1 { fill: rgba(252, 206, 29, 1); }
+      .yellow-2 { fill: rgba(217, 178, 25, 1); }
+      .yellow-3 { fill: rgba(177, 145, 18, 1); }
+    </style>
+  </defs>
+  <rect width="40" height="40" rx="8" fill="#f6efe2"/>
+  <rect x="0.6" y="0.6" width="38.8" height="38.8" rx="7.4" fill="none" stroke="#c9ab72" stroke-width="0.8"/>
+  <g transform="translate(0 -20)">
+    <polygon class="yellow-1" points="10 30 15 40 25 40"/>
+    <polygon class="yellow-3" points="30 30 15 40 25 40"/>
+    <polygon class="yellow-1" points="25 40 25 50 30 50 30 30"/>
+    <polygon class="yellow-3" points="10 30 10 50 15 50 15 40"/>
+    <polygon class="yellow-2" points="15 40 15 50 30 50 30 30"/>
+  </g>
+</svg>

@@ -1,0 +1,40 @@
+# Python
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+*.egg-info/
+.coverage
+htmlcov/
+
+# Node / frontend
+frontend/node_modules/
+frontend/dist/
+frontend/coverage/
+frontend/.vite/
+*.tsbuildinfo
+npm-install.log
+
+# Runtime data (never commit a library, catalogue or local pages)
+data/*
+!data/.gitkeep
+books/*
+!books/.gitkeep
+config/*
+!config/.gitkeep
+
+# Local configuration and logs
+.env
+*.log
+pip-install.log
+.DS_Store
+Thumbs.db
+
+# Font source copies live in frontend/public/fonts only
+/*.ttf
+/*.otf
+
+# Editors
+.idea/
+.vscode/

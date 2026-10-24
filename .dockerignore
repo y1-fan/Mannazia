@@ -20,4 +20,6 @@ config
 /*.ttf
 /*.otf
 docs
+deploy
+dist-offline
 README*.md

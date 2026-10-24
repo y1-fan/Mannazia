@@ -35,6 +35,9 @@ Thumbs.db
 /*.ttf
 /*.otf
 
+# Generated offline deployment bundles
+dist-offline/
+
 # Editors
 .idea/
 .vscode/

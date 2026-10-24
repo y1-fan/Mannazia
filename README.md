@@ -72,6 +72,10 @@ docker compose ps
 
 `MANNAZIA_PORT` 只修改宿主机端口；容器内部始终监听 8080。
 
+如果 NAS 不联网，可在有网络的机器上构建离线包，再复制到 NAS。生成脚本见
+[`deploy/build-offline-bundle.sh`](deploy/build-offline-bundle.sh)，产物包含
+amd64 / arm64 镜像、Compose 文件和自动安装脚本。
+
 ### 持久化目录
 
 | 宿主机目录 | 容器目录 | 内容 |

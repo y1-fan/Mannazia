@@ -82,6 +82,10 @@ Open:
 
 `MANNAZIA_PORT` changes only the host port; the container always listens on 8080.
 
+For an offline NAS, build the offline bundle on a connected machine and copy it
+over. See [`deploy/build-offline-bundle.sh`](deploy/build-offline-bundle.sh); the
+bundle contains amd64/arm64 images, the Compose file and an installer.
+
 ### Persistent directories
 
 | Host directory | Container | Contents |

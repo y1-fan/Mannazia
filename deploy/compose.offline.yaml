@@ -1,0 +1,51 @@
+services:
+  mannazia:
+    image: mannazia:0.1.0
+    container_name: mannazia
+    restart: unless-stopped
+    init: true
+    stop_grace_period: 30s
+    ports:
+      - "${MANNAZIA_PORT:-8080}:8080"
+    user: "${PUID:-1000}:${PGID:-1000}"
+    environment:
+      TZ: ${TZ:-UTC}
+      FORWARDED_ALLOW_IPS: ${FORWARDED_ALLOW_IPS:-127.0.0.1}
+      MANNAZIA_CONFIG_DIR: /config
+      MANNAZIA_DATA_DIR: /data
+      MANNAZIA_BOOKS_DIR: /books
+      MANNAZIA_ENVIRONMENT: ${MANNAZIA_ENVIRONMENT:-production}
+      MANNAZIA_LOG_LEVEL: ${MANNAZIA_LOG_LEVEL:-INFO}
+      MANNAZIA_ALLOW_PRIVATE_NETWORKS: ${MANNAZIA_ALLOW_PRIVATE_NETWORKS:-false}
+      MANNAZIA_ALLOWED_PRIVATE_HOSTS: ${MANNAZIA_ALLOWED_PRIVATE_HOSTS:-}
+      MANNAZIA_MAX_MANIFEST_BYTES: ${MANNAZIA_MAX_MANIFEST_BYTES:-8388608}
+      MANNAZIA_MAX_IMAGE_BYTES: ${MANNAZIA_MAX_IMAGE_BYTES:-209715200}
+      MANNAZIA_MAX_REDIRECTS: ${MANNAZIA_MAX_REDIRECTS:-5}
+      MANNAZIA_HTTP_TIMEOUT: ${MANNAZIA_HTTP_TIMEOUT:-30}
+      MANNAZIA_HTTP_CONNECT_TIMEOUT: ${MANNAZIA_HTTP_CONNECT_TIMEOUT:-10}
+      MANNAZIA_DOWNLOAD_CONCURRENCY: ${MANNAZIA_DOWNLOAD_CONCURRENCY:-3}
+      MANNAZIA_DOWNLOAD_MAX_WIDTH: ${MANNAZIA_DOWNLOAD_MAX_WIDTH:-0}
+      MANNAZIA_COVER_MAX_WIDTH: ${MANNAZIA_COVER_MAX_WIDTH:-1200}
+      MANNAZIA_DOWNLOAD_IMAGE_FORMAT: ${MANNAZIA_DOWNLOAD_IMAGE_FORMAT:-jpg}
+      MANNAZIA_DOWNLOAD_RETRIES: ${MANNAZIA_DOWNLOAD_RETRIES:-3}
+      MANNAZIA_AUTO_RESUME_DOWNLOADS: ${MANNAZIA_AUTO_RESUME_DOWNLOADS:-false}
+      MANNAZIA_PAGE_THUMBNAILS_ENABLED: ${MANNAZIA_PAGE_THUMBNAILS_ENABLED:-true}
+      MANNAZIA_THUMBNAIL_CONCURRENCY: ${MANNAZIA_THUMBNAIL_CONCURRENCY:-4}
+      MANNAZIA_THUMBNAIL_MAX_BYTES: ${MANNAZIA_THUMBNAIL_MAX_BYTES:-33554432}
+      MANNAZIA_PREVIEW_TTL_SECONDS: ${MANNAZIA_PREVIEW_TTL_SECONDS:-900}
+    volumes:
+      - ./config:/config
+      - ./data:/data
+      - ./books:/books
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "python",
+          "-c",
+          "import sys,urllib.request; sys.exit(0 if urllib.request.urlopen('http://127.0.0.1:8080/api/health', timeout=4).status == 200 else 1)",
+        ]
+      interval: 30s
+      timeout: 5s
+      start_period: 25s
+      retries: 3

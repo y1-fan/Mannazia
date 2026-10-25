@@ -38,6 +38,7 @@ from app.services.covers import cache_local_cover, ensure_book_cover
 from app.services.image_processing import (
     PROCESSING_FAILED_WARNING,
     ImageProcessingError,
+    convert_tiff_to_png,
     process_page_image,
 )
 from app.services.image_validation import DownloadValidationError, validate_image_file
@@ -370,7 +371,7 @@ class DownloadManager:
                         await self.fetcher.download_to_file(
                             request.url, temp_path, max_bytes=self.settings.max_image_bytes
                         )
-                        validate_image_file(temp_path)
+                        source_format, _source_mime, _sw, _sh = validate_image_file(temp_path)
                         warning = None
                         if work.quality in {"reading", "standard", "appreciation"}:
                             try:
@@ -383,6 +384,11 @@ class DownloadManager:
                                     work.quality,
                                     exc,
                                 )
+                                if source_format == "TIFF":
+                                    convert_tiff_to_png(temp_path)
+                        elif source_format == "TIFF":
+                            # Research keeps pixels losslessly, but browsers cannot display TIFF.
+                            convert_tiff_to_png(temp_path)
                         image_format, mime, _width, _height = validate_image_file(temp_path)
                         extension = EXT_BY_FORMAT[image_format]
                         relative = self.storage.relative_page_path(work.sequence, extension)
@@ -409,6 +415,9 @@ class DownloadManager:
                             break
                     except DownloadValidationError as exc:
                         last_error = exc
+                        break
+                    except ImageProcessingError as exc:
+                        last_error = DownloadValidationError(str(exc))
                         break
                     except OSError as exc:
                         last_error = DownloadValidationError(f"Could not store the image: {exc}")

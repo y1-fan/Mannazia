@@ -12,6 +12,10 @@ from app.config import Settings
 from app.db import Database
 from app.iiif.fetcher import Fetcher, FetchError
 from app.models import Book, Canvas
+from app.services.image_processing import (
+    ImageProcessingError,
+    convert_tiff_to_jpeg,
+)
 from app.services.image_validation import DownloadValidationError, validate_image_file
 from app.services.storage import EXT_BY_FORMAT, Storage
 
@@ -195,6 +199,9 @@ class ThumbnailManager:
                             max_bytes=self.settings.thumbnail_max_bytes,
                         )
                         image_format, _mime, _width, _height = validate_image_file(temporary)
+                        if image_format == "TIFF":
+                            convert_tiff_to_jpeg(temporary, quality=85)
+                            image_format, _mime, _width, _height = validate_image_file(temporary)
                         extension = EXT_BY_FORMAT[image_format]
                         self.storage.store_thumbnail(book_id, sequence, temporary, extension)
                         return
@@ -210,7 +217,7 @@ class ThumbnailManager:
                         await asyncio.sleep(
                             min(self.settings.download_retry_backoff * (2 ** (attempt - 1)), 4.0)
                         )
-                    except (DownloadValidationError, OSError) as exc:
+                    except (DownloadValidationError, ImageProcessingError, OSError) as exc:
                         logger.debug(
                             "Could not store thumbnail %s for book %s: %s",
                             sequence,

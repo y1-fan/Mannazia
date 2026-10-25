@@ -80,7 +80,11 @@ class FakeFetcher:
                 retryable=True,
                 status_code=503,
             )
-        payload = image_bytes("PNG" if url.lower().endswith(".png") else "JPEG")
+        lower_url = url.lower().split("?", 1)[0]
+        if lower_url.endswith((".tif", ".tiff")):
+            payload = image_bytes("TIFF")
+        else:
+            payload = image_bytes("PNG" if lower_url.endswith(".png") else "JPEG")
         if max_bytes and len(payload) > max_bytes:
             raise FetchError("Too large", code="response_too_large")
         destination.parent.mkdir(parents=True, exist_ok=True)

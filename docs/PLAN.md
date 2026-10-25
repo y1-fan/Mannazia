@@ -66,7 +66,7 @@ backend/tests/     pytest suite with local fixtures and fakes
 
 ## Delivered and verified
 
-- Full backend suite (97 tests) covering parser, security, API, storage, integrity, cover
+- Full backend suite (98 tests) covering parser, security, API, storage, integrity, cover
   selection/backfill/caching, download
   transitions, pause/resume/cancel, restart recovery, failed-page retry and partial/error states.
 - Frontend Vitest suite (9 tests), ESLint, TypeScript checking and production Vite build.

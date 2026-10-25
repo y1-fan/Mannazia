@@ -25,6 +25,38 @@ class ImageProcessingError(Exception):
     pass
 
 
+def convert_tiff_to_jpeg(path: Path, *, quality: int = 90) -> None:
+    """Convert a TIFF source to a browser-readable JPEG."""
+    _transcode_tiff(path, image_format="JPEG", quality=quality)
+
+
+def convert_tiff_to_png(path: Path) -> None:
+    """Preserve TIFF pixels in a browser-readable PNG at original dimensions."""
+    _transcode_tiff(path, image_format="PNG")
+
+
+def _transcode_tiff(path: Path, *, image_format: str, quality: int | None = None) -> None:
+    processed_path = path.with_name(f"{path.name}.processing")
+    try:
+        with Image.open(path) as opened:
+            image = ImageOps.exif_transpose(opened)
+            output = _to_rgb(image)
+            if image_format == "PNG":
+                output.save(processed_path, format="PNG", optimize=True)
+            else:
+                output.save(
+                    processed_path,
+                    format="JPEG",
+                    quality=quality or 90,
+                    optimize=True,
+                    progressive=False,
+                )
+        os.replace(processed_path, path)
+    except (OSError, ValueError, Image.DecompressionBombError) as exc:
+        processed_path.unlink(missing_ok=True)
+        raise ImageProcessingError(f"Could not convert the TIFF image: {exc}") from exc
+
+
 def process_page_image(path: Path, quality: str) -> None:
     """Resize/re-encode a downloaded page for a quality tier.
 

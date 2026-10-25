@@ -22,7 +22,7 @@ export function Cover({
   const src = sources.find((source) => !failed.has(source));
 
   return (
-    <div className={classNames('cover', className)}>
+    <div className={classNames('cover', !src && 'cover-empty', className)}>
       {src ? (
         <img
           src={src}

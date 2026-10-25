@@ -6,7 +6,7 @@ from PIL import Image, UnidentifiedImageError
 
 from app.services.storage import MIME_BY_FORMAT
 
-ALLOWED_FORMATS = {"JPEG", "PNG", "WEBP", "GIF"}
+ALLOWED_FORMATS = {"JPEG", "PNG", "WEBP", "GIF", "TIFF"}
 MAX_PIXELS = 300_000_000
 
 Image.MAX_IMAGE_PIXELS = MAX_PIXELS
@@ -28,8 +28,8 @@ def validate_image_file(path: Path) -> tuple[str, str, int, int]:
         raise DownloadValidationError(f"The downloaded file is not a valid image: {exc}") from exc
     if image_format not in ALLOWED_FORMATS:
         raise DownloadValidationError(
-            f"Unsupported image format '{image_format or 'unknown'}'. Supported browser formats "
-            "are JPEG, PNG, WebP and GIF."
+            f"Unsupported image format '{image_format or 'unknown'}'. Supported source formats "
+            "are JPEG, PNG, WebP, GIF and TIFF."
         )
     if width <= 0 or height <= 0 or width * height > MAX_PIXELS:
         raise DownloadValidationError("The image dimensions are invalid or unreasonably large.")

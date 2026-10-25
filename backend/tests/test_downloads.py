@@ -116,6 +116,67 @@ def test_download_quality_is_recorded(client: TestClient) -> None:
     assert invalid.status_code == 422
 
 
+def test_tiff_pages_and_cover_are_converted_for_browser(client: TestClient) -> None:
+    fake: FakeFetcher = client.app.state.fetcher
+    manifest_url = "https://example.org/iiif/tiff/manifest"
+    fake.manifests[manifest_url] = {
+        "@context": "http://iiif.io/api/presentation/3/context.json",
+        "id": manifest_url,
+        "type": "Manifest",
+        "label": {"en": ["TIFF Book"]},
+        "items": [
+            {
+                "id": "https://example.org/iiif/tiff/canvas/1",
+                "type": "Canvas",
+                "width": 80,
+                "height": 120,
+                "items": [
+                    {
+                        "id": "https://example.org/iiif/tiff/page/1",
+                        "type": "AnnotationPage",
+                        "items": [
+                            {
+                                "id": "https://example.org/iiif/tiff/annotation/1",
+                                "type": "Annotation",
+                                "motivation": "painting",
+                                "body": {
+                                    "id": "https://example.org/tiff/page1.tif",
+                                    "type": "Image",
+                                    "format": "image/tiff",
+                                    "width": 80,
+                                    "height": 120,
+                                },
+                            }
+                        ],
+                    }
+                ],
+            }
+        ],
+    }
+    preview = client.post("/api/import/preview", json={"manifest_url": manifest_url})
+    assert preview.status_code == 200, preview.text
+    book = client.post(
+        "/api/books",
+        json={"manifest_url": manifest_url, "preview_token": preview.json()["preview_token"]},
+    ).json()
+    assert book["local_cover_url"] == f"/api/books/{book['id']}/cover"
+    cover = client.get(f"/api/books/{book['id']}/cover")
+    assert cover.status_code == 200
+    assert cover.headers["content-type"] == "image/jpeg"
+
+    job = start_job(client, book["id"])
+    finished = wait_for_job(client, job["id"], {"completed", "failed"})
+    assert finished["state"] == "completed", finished
+    page = client.get(f"/api/books/{book['id']}/pages/1")
+    assert page.status_code == 200
+    assert page.headers["content-type"] == "image/png"
+
+    book_dir = Path(client.app.state.settings.books_dir, book["id"])
+    manifest = json.loads((book_dir / "download-manifest.json").read_text(encoding="utf-8"))
+    assert manifest["pages"][0]["mime_type"] == "image/png"
+    assert manifest["pages"][0]["local_path"].endswith(".png")
+
+
 def test_download_failure_partial_state_and_retry(client: TestClient) -> None:
     fake: FakeFetcher = client.app.state.fetcher
     book = import_book(client)

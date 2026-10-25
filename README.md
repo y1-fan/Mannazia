@@ -340,7 +340,7 @@ npm run build      # 输出 frontend/dist
 ```
 
 测试使用本地 fixture 和模拟 HTTP 客户端，不需要访问公共 IIIF 服务。当前测试规模：
-后端 **97** 个，前端 **9** 个。
+后端 **98** 个，前端 **9** 个。
 
 可选的演示数据脚本：`python backend/scripts/seed_demo.py`。它会写入当前配置指向的
 `config/`、`data/` 和 `books/`，请勿对真实书库运行。
@@ -357,7 +357,8 @@ npm run build      # 输出 frontend/dist
 - 跨域瓦片受源站 CORS 限制；失败时会退回原图 URL。
 - 自动封面选择可能选中扫描目标、条码或卷首图；暂不支持手动更换封面。
 - 没有 OCR、全文检索、注释编辑或阅读列表；搜索覆盖书目元数据和标签。
-- 仅支持浏览器可解码的 JPEG / PNG / WebP / GIF 页面；TIFF-only 源会标记为不支持。
+- 下载时接受 JPEG / PNG / WebP / GIF / TIFF 源图。TIFF 会在本地转换为浏览器可读的
+  JPEG 或 PNG；在线直接读取 TIFF-only 资源可能仍需先下载到本地。
 - 中文界面不会翻译源数据中的标题、作者和权利文本。
 - 字体文件较大且随应用分发；发布前请确认字体再分发权限，见 [`docs/FONTS.md`](docs/FONTS.md)。
 

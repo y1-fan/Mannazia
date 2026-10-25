@@ -16,6 +16,10 @@ from app.iiif.fetcher import Fetcher, FetchError
 from app.iiif.images import ImageServiceResolver
 from app.iiif.models import NormalizedCanvas
 from app.models import Canvas, PageResource
+from app.services.image_processing import (
+    ImageProcessingError,
+    convert_tiff_to_jpeg,
+)
 from app.services.image_validation import DownloadValidationError, validate_image_file
 from app.services.storage import EXT_BY_FORMAT, Storage
 
@@ -268,6 +272,9 @@ async def cache_cover(
                     request.url, temporary, max_bytes=settings.max_image_bytes
                 )
                 image_format, _mime, width, height = validate_image_file(temporary)
+                if image_format == "TIFF":
+                    convert_tiff_to_jpeg(temporary)
+                    image_format, _mime, width, height = validate_image_file(temporary)
                 extension = EXT_BY_FORMAT[image_format]
                 final = storage.book_dir(book.id) / f"cover.{extension}"
                 os.replace(temporary, final)
@@ -299,7 +306,7 @@ async def cache_cover(
                 last_error = exc.message
                 if not exc.retryable or attempt >= settings.download_retries:
                     break
-            except (DownloadValidationError, OSError) as exc:
+            except (DownloadValidationError, ImageProcessingError, OSError) as exc:
                 last_error = str(exc)
                 break
             await asyncio.sleep(min(settings.download_retry_backoff * (2 ** (attempt - 1)), 5.0))

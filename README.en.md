@@ -361,7 +361,7 @@ npm test
 npm run build      # writes frontend/dist
 ```
 
-The current suites contain **97 backend tests** and **9 frontend tests**. Tests
+The current suites contain **98 backend tests** and **9 frontend tests**. Tests
 use local fixtures and fake HTTP clients; they do not require a public IIIF
 server.
 
@@ -389,8 +389,9 @@ real library.
   manual cover override is not implemented.
 - No OCR, full-text search, annotation editor or reading lists. Search covers
   bibliographic metadata and tags.
-- Page images must decode as JPEG, PNG, WebP or GIF. TIFF-only sources are marked
-  unsupported.
+- JPEG, PNG, WebP, GIF and TIFF source images are accepted. TIFF is converted
+  locally to browser-readable JPEG or PNG; remote TIFF-only streams may still need
+  to be downloaded before they can be read in the browser.
 - Source titles, creators, rights and metadata are shown in the language supplied
   by the institution; the UI itself is available in English and Chinese.
 - Font files are large and distributed with the app. Confirm redistribution

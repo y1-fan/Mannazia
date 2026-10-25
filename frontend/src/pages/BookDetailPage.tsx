@@ -665,7 +665,7 @@ export function BookDetailPage() {
 
           <aside className="book-side-column">
             {renderingLinks.length ? (
-              <section className="panel">
+              <section className="panel renderings-panel">
                 <p className="eyebrow">{t('book.renderingsEyebrow')}</p>
                 <h2>{t('book.renderingsTitle')}</h2>
                 <ul className="link-list">

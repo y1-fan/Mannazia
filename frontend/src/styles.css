@@ -516,7 +516,7 @@ pre code {
   font-size: 0.95rem;
 }
 
-.button.is-armed {
+.button.is-armed:not(.button-danger) {
   border-color: var(--red);
   color: var(--red);
 }
@@ -1843,6 +1843,10 @@ textarea {
   color: var(--ink-soft);
   font-family: var(--font-display);
   font-size: 0.88rem;
+}
+
+.renderings-panel h2 {
+  margin-bottom: 0.7rem;
 }
 
 .link-list {

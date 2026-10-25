@@ -32,6 +32,7 @@ def settings(tmp_path: Path) -> Settings:
         download_retry_backoff=0.01,
         http_timeout=3,
         http_connect_timeout=2,
+        http_proxy=None,
         preview_ttl_seconds=300,
         page_thumbnails_enabled=False,
     )

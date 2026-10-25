@@ -42,6 +42,7 @@ class Settings(BaseSettings):
     max_redirects: int = 5
     http_timeout: float = 30.0
     http_connect_timeout: float = 10.0
+    http_proxy: str | None = None
     user_agent: str = "Mannazia/0.1 (self-hosted IIIF library)"
 
     # Downloads
@@ -93,6 +94,18 @@ class Settings(BaseSettings):
     @classmethod
     def _valid_cover_width(cls, value: int) -> int:
         return max(300, min(value, 4000))
+
+    @field_validator("http_proxy")
+    @classmethod
+    def _valid_proxy(cls, value: str | None) -> str | None:
+        if value is None:
+            return None
+        value = value.strip()
+        if not value:
+            return None
+        if not value.lower().startswith(("http://", "https://")):
+            raise ValueError("MANNAZIA_HTTP_PROXY must be an http:// or https:// proxy URL")
+        return value
 
     @field_validator("download_image_format")
     @classmethod

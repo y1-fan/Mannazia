@@ -20,6 +20,7 @@ def make_settings(tmp_path: Path, **overrides) -> Settings:
         "max_image_bytes": 1024,
         "http_timeout": 5,
         "http_connect_timeout": 2,
+        "http_proxy": None,
         "max_redirects": 3,
         "download_retry_backoff": 0.01,
     }

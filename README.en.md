@@ -232,6 +232,7 @@ All application variables use the `MANNAZIA_` prefix.
 | `MANNAZIA_LOG_LEVEL` | `INFO` | Log level |
 | `MANNAZIA_ALLOW_PRIVATE_NETWORKS` | `false` | Development switch allowing every private destination |
 | `MANNAZIA_ALLOWED_PRIVATE_HOSTS` | empty | Exact private hostnames, comma separated |
+| `MANNAZIA_HTTP_PROXY` | empty | Optional outbound HTTP(S) proxy, e.g. `http://127.0.0.1:7890` |
 | `MANNAZIA_DOWNLOAD_CONCURRENCY` | `3` | Concurrent page fetches (1–16) |
 | `MANNAZIA_DOWNLOAD_MAX_WIDTH` | `0` | Optional global width ceiling for resized tiers; 0 adds no ceiling |
 | `MANNAZIA_COVER_MAX_WIDTH` | `1200` | Target width of the cached cover |
@@ -283,6 +284,19 @@ For a IIIF server on the LAN, allow only exact hostnames:
 ```dotenv
 MANNAZIA_ALLOWED_PRIVATE_HOSTS=iiif.lan,library.local
 ```
+
+If the source requires a VPN or local proxy and the browser can open the
+Manifest while Mannazia cannot, configure an outbound proxy:
+
+```dotenv
+MANNAZIA_HTTP_PROXY=http://127.0.0.1:7890
+```
+
+Inside a container, `127.0.0.1` means the container itself. If the proxy runs on
+the host, use `host.docker.internal` (Docker Desktop) or the host's LAN address.
+Mannazia still subjects target URLs to its SSRF checks; only the explicitly
+configured proxy is allowed for outbound traffic. Proxy URLs must use `http://`
+or `https://`.
 
 There is **no built-in authentication, authorization or TLS**. Put Mannazia
 behind a reverse proxy with HTTPS and authentication. Do not expose it directly

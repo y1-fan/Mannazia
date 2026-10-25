@@ -190,6 +190,26 @@ server {
 `FORWARDED_ALLOW_IPS` 设置为代理的实际地址或地址段。不要把
 `FORWARDED_ALLOW_IPS=*` 用在直接暴露的服务上。
 
+### 必须通过 VPN 或代理访问 IIIF
+
+浏览器使用系统代理或 VPN 扩展时，不代表 Mannazia 的后台请求也会自动走同一条
+线路。如果浏览器能打开 Manifest、Mannazia 报 502 或无法连接，可以配置显式
+出站代理：
+
+```dotenv
+MANNAZIA_HTTP_PROXY=http://127.0.0.1:7890
+```
+
+只支持 HTTP/HTTPS 代理，不支持 `socks5://`。容器中的 `127.0.0.1` 指向容器本身；
+代理运行在宿主机或 NAS 上时，请填写宿主机局域网 IP，或使用 Docker 的
+`host.docker.internal`（需要 Docker 支持）。配置后重启容器：
+
+```sh
+docker compose -p mannazia -f compose.yaml up -d --force-recreate
+```
+
+Mannazia 仍会先检查目标 URL 的 SSRF 风险，只允许明确配置的代理出站。
+
 阅读器会从第三方 IIIF 服务器加载图像瓦片。浏览器直接访问这些服务器，
 因此需要保证：
 

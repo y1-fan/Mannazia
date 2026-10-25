@@ -71,13 +71,16 @@ class Fetcher:
             write=settings.http_timeout,
             pool=settings.http_connect_timeout,
         )
-        self._client = httpx.AsyncClient(
-            timeout=timeout,
-            follow_redirects=False,
-            trust_env=False,
-            transport=transport,
-            headers={"User-Agent": settings.user_agent, "Accept-Encoding": "identity"},
-        )
+        client_options = {
+            "timeout": timeout,
+            "follow_redirects": False,
+            "trust_env": False,
+            "transport": transport,
+            "headers": {"User-Agent": settings.user_agent, "Accept-Encoding": "identity"},
+        }
+        if settings.http_proxy:
+            client_options["proxy"] = settings.http_proxy
+        self._client = httpx.AsyncClient(**client_options)
 
     async def aclose(self) -> None:
         await self._client.aclose()
@@ -101,9 +104,12 @@ class Fetcher:
             }
             if extra_headers:
                 headers.update(extra_headers)
+            # With an explicit proxy, let the proxy resolve/route the original
+            # hostname. The URL guard has already validated the target address.
+            request_url = current_url if self.settings.http_proxy else target.connect_url
             request = self._client.build_request(
                 "GET",
-                target.connect_url,
+                request_url,
                 headers=headers,
                 extensions={"sni_hostname": target.host},
             )

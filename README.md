@@ -211,6 +211,7 @@ books/<32位十六进制书籍ID>/
 | `MANNAZIA_LOG_LEVEL` | `INFO` | 日志级别 |
 | `MANNAZIA_ALLOW_PRIVATE_NETWORKS` | `false` | 允许访问全部私网地址的开发开关 |
 | `MANNAZIA_ALLOWED_PRIVATE_HOSTS` | 空 | 允许解析到私网的主机名，逗号分隔 |
+| `MANNAZIA_HTTP_PROXY` | 空 | 可选的出站 HTTP(S) 代理，例如 `http://127.0.0.1:7890` |
 | `MANNAZIA_DOWNLOAD_CONCURRENCY` | `3` | 页面下载并发数（1–16） |
 | `MANNAZIA_DOWNLOAD_MAX_WIDTH` | `0` | 前三档的可选全局宽度上限；0 表示不额外限制 |
 | `MANNAZIA_COVER_MAX_WIDTH` | `1200` | 导入时缓存封面的目标宽度 |
@@ -265,6 +266,18 @@ Mannazia 默认阻止以下目标：
 ```dotenv
 MANNAZIA_ALLOWED_PRIVATE_HOSTS=iiif.lan,library.local
 ```
+
+如果访问源站必须经过 VPN 或本地代理，而浏览器能打开 Manifest、Mannazia 不能，
+请配置出站代理：
+
+```dotenv
+MANNAZIA_HTTP_PROXY=http://127.0.0.1:7890
+```
+
+Docker 容器中的 `127.0.0.1` 指向容器本身；如果代理运行在宿主机，请使用
+`host.docker.internal`（Docker Desktop）或宿主机局域网 IP。Mannazia 仍然会对目标
+URL 做 SSRF 检查，只对明确配置的代理放行出站连接。代理 URL 只支持
+`http://` 和 `https://`。
 
 项目**没有内置登录、权限或 TLS**。请放在带 HTTPS 和认证的反向代理之后，不要直接
 暴露到公网。详细边界见下文的“已知限制”。

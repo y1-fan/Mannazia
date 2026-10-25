@@ -84,7 +84,62 @@ Open:
 
 For an offline NAS, build the offline bundle on a connected machine and copy it
 over. See [`deploy/build-offline-bundle.sh`](deploy/build-offline-bundle.sh); the
-bundle contains amd64/arm64 images, the Compose file and an installer.
+bundle contains amd64/arm64 images, the Compose file and an installer. The
+generated `tar.gz` is not committed to the source tree; publish it as a **GitHub
+Release** asset.
+
+### Changing the port
+
+Do not edit this line in the Compose file:
+
+```yaml
+ports:
+  - "${MANNAZIA_PORT:-8080}:8080"
+```
+
+The left side is the host port; `8080` on the right is the fixed container port.
+Edit `.env` instead:
+
+```dotenv
+MANNAZIA_PORT=8090
+```
+
+Recreate the container:
+
+```sh
+docker compose up -d --force-recreate
+```
+
+Verify the resolved mapping:
+
+```sh
+docker compose config | grep -A4 'ports:'
+```
+
+You should see a host `published: "8090"` mapping to `target: 8080`. If the host
+port is still reported as occupied:
+
+1. Make sure `.env` is in the same directory as `compose.yaml` and run the
+   command from that directory.
+2. Check for an old container or a host listener:
+
+```sh
+docker ps -a --format 'table {{.Names}}\t{{.Ports}}\t{{.Status}}'
+sudo ss -ltnp | grep ':8080'
+```
+
+3. Remove the old container if it is still holding the port:
+
+```sh
+docker rm -f mannazia
+docker compose up -d --force-recreate
+```
+
+4. If another service owns 8080, choose another free host port such as `8090`.
+   Do not change the container's internal 8080.
+
+When using a GUI such as Synology Container Manager, set the host port in the
+project/container port mapping if the GUI does not read `.env`.
 
 ### Persistent directories
 

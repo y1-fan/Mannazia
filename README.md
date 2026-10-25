@@ -74,7 +74,59 @@ docker compose ps
 
 如果 NAS 不联网，可在有网络的机器上构建离线包，再复制到 NAS。生成脚本见
 [`deploy/build-offline-bundle.sh`](deploy/build-offline-bundle.sh)，产物包含
-amd64 / arm64 镜像、Compose 文件和自动安装脚本。
+amd64 / arm64 镜像、Compose 文件和自动安装脚本。生成的 `tar.gz` 不提交到源码
+仓库，发布时作为 **GitHub Release** 附件上传。
+
+### 修改端口
+
+Compose 中的这一行不需要直接修改：
+
+```yaml
+ports:
+  - "${MANNAZIA_PORT:-8080}:8080"
+```
+
+左侧 `${...}` 是宿主机端口，右侧 `8080` 是容器内部固定端口。修改 `.env`：
+
+```dotenv
+MANNAZIA_PORT=8090
+```
+
+然后重新创建容器：
+
+```sh
+docker compose up -d --force-recreate
+```
+
+确认 Compose 实际解析出的端口：
+
+```sh
+docker compose config | grep -A4 'ports:'
+```
+
+应看到类似 `published: "8090"` 和 `target: 8080`。如果仍显示宿主机
+`8080` 被占用：
+
+1. 确认 `.env` 与 `compose.yaml` 在同一目录，并且当前命令是在该目录执行的；
+2. 检查旧容器是否还占用端口：
+
+```sh
+docker ps -a --format 'table {{.Names}}\t{{.Ports}}\t{{.Status}}'
+sudo ss -ltnp | grep ':8080'
+```
+
+3. 如果旧的 `mannazia` 容器仍在运行：
+
+```sh
+docker rm -f mannazia
+docker compose up -d --force-recreate
+```
+
+4. 如果 8080 被其他程序占用，直接换一个空闲端口，例如 `8090`，不要改容器内部
+   的 8080。
+
+使用 Synology Container Manager 等图形界面时，如果项目没有读取 `.env`，需要在
+项目的端口映射设置中把宿主机端口改为新端口。
 
 ### 持久化目录
 
